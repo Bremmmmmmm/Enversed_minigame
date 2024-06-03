@@ -14,6 +14,7 @@ public class PuzzlePieceController : MonoBehaviour
     public List<GameObject> pathPoints = new List<GameObject>();
     public List<GameObject> lines = new List<GameObject>();
     public int currentTargetIndex = 0;
+    public int previousTargetIndex = 0;
     private Vector3 cursorPoint;
     private Vector3 cursorPosition;
     private SpriteRenderer spriteRenderer;
@@ -29,6 +30,15 @@ public class PuzzlePieceController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         transform.position = pathPoints[0].transform.position + centeroffset;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        List<GameObject> availablePathPoints1 = pathPoints[currentTargetIndex].GetComponent<node>().connections;
+        availablePathPoints1.Add(pathPoints[currentTargetIndex]);
+        string names = "";
+        foreach (GameObject point in availablePathPoints1)
+        {
+            names += point.name + " ";
+        }
+        print("Available points: " + names);
     }
 
     void OnMouseDown()
@@ -46,7 +56,7 @@ public class PuzzlePieceController : MonoBehaviour
         {
             rb2d.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
             startposition = transform.position;
-            transform.position = pathPoints[0].transform.position + centeroffset;
+            //transform.position = pathPoints[0].transform.position + centeroffset;
         }
         else
         {
@@ -75,6 +85,7 @@ public class PuzzlePieceController : MonoBehaviour
 
     void CheckClosestPoint()
     {
+
         float closestDistance = Mathf.Infinity;
         GameObject closestPoint = null;
         List<GameObject> availablePathPoints = pathPoints[currentTargetIndex].GetComponent<node>().connections;
@@ -94,13 +105,15 @@ public class PuzzlePieceController : MonoBehaviour
         {
             foreach (GameObject line in lines)
             {
-                if (line.name == currentTargetIndex + "-" + pathPoints.IndexOf(closestPoint)|| line.name == pathPoints.IndexOf(closestPoint) + "-" + currentTargetIndex)
+                int CLPO = pathPoints.IndexOf(closestPoint);
+                if (line.name == pathPoints[currentTargetIndex].name + "-" + pathPoints[CLPO].name || line.name == pathPoints[CLPO].name + "-" + pathPoints[currentTargetIndex].name)
                 {
                     line.GetComponent<SpriteRenderer>().color = Color.green;
                 }
                 else
                 {
-                    line.GetComponent<SpriteRenderer>().color = Color.red;
+                    print("line name = " + line.name + " maybe? = " + pathPoints[currentTargetIndex].name + "-" + pathPoints[CLPO].name);
+                    line.GetComponent<SpriteRenderer>().color =  new Color(1.0f, 0.0f, 0.0f, 0.39f);;
                 }
             }
         }
@@ -127,11 +140,12 @@ public class PuzzlePieceController : MonoBehaviour
         {
             foreach (GameObject line in lines)
             {
-                line.GetComponent<SpriteRenderer>().color = Color.red;
+                line.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 0.39f);
             }
             moving = true;
             targetposition = closestPoint.transform.position + centeroffset;
             StartCoroutine(MoveFromTo(transform.position, closestPoint.transform.position + centeroffset, 0.2f, false));
+            previousTargetIndex = currentTargetIndex;
             currentTargetIndex = pathPoints.IndexOf(closestPoint);
         }
     }
@@ -166,6 +180,7 @@ public class PuzzlePieceController : MonoBehaviour
             StopAllCoroutines();
             //print("position = " + transform.position + " previous = " + startposition);
             StartCoroutine(MoveFromTo(transform.position , startposition, 0.2f, true));
+            currentTargetIndex = previousTargetIndex;
         }
     }
 }
