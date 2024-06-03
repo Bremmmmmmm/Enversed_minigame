@@ -24,6 +24,7 @@ public class PuzzlePieceController : MonoBehaviour
     private Rigidbody2D rb2d;
     private Vector3 a = new Vector3(0.1f,0.1f,0.1f);
     private Vector3 b = new Vector3(-0.1f,-0.1f,-0.1f);
+    public bool enabled = true;
 
     void Start()
     {
@@ -43,6 +44,11 @@ public class PuzzlePieceController : MonoBehaviour
 
     void OnMouseDown()
     {
+        if(enabled == false)
+        {
+            return;
+        }
+
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
         spriteRenderer.color = Color.yellow;
@@ -51,6 +57,11 @@ public class PuzzlePieceController : MonoBehaviour
 
     void Update()
     {
+        if(enabled == false)
+        {
+            return;
+        }
+
 
         if (!moving)
         {
@@ -67,6 +78,11 @@ public class PuzzlePieceController : MonoBehaviour
 
     void OnMouseDrag()
     {
+        if(enabled == false)
+        {
+            return;
+        }
+
         if (isDragging)
         {
             cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
@@ -78,6 +94,12 @@ public class PuzzlePieceController : MonoBehaviour
 
     void OnMouseUp()
     {
+        if(enabled == false)
+        {
+            return;
+        }
+
+
         isDragging = false;
         spriteRenderer.color = Color.white;
         SnapToClosestPoint();

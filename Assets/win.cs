@@ -6,10 +6,14 @@ public class win : MonoBehaviour
 {
     GameObject[] puzzelpieces;
     bool won = false; 
+    SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
         puzzelpieces = GameObject.FindGameObjectsWithTag("puzzelpiece");
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = new Color(0,0,0,0);
     }
 
     // Update is called once per frame
@@ -34,6 +38,11 @@ public class win : MonoBehaviour
             {
                 Debug.Log("You win!");
                 won = true;
+                spriteRenderer.color = new Color(1,1,1,1);
+                foreach (GameObject piece in puzzelpieces)
+                {
+                    piece.GetComponent<PuzzlePieceController>().enabled = false;
+                }
             }
         }
     }
