@@ -29,7 +29,9 @@ public class PuzzlePieceController : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        print(centeroffset);
         transform.position = pathPoints[0].transform.position + centeroffset;
+        print("Current center" + transform.position);
         spriteRenderer = GetComponent<SpriteRenderer>();
         
         List<GameObject> availablePathPoints1 = pathPoints[currentTargetIndex].GetComponent<node>().connections;
@@ -190,18 +192,28 @@ public class PuzzlePieceController : MonoBehaviour
         transform.position = end; // Ensure the object reaches the end position
     }
 
-    private void TiggerOnEnter2D(Collider2D collision)
-    {
-        print("Collided with other object");
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (moving){
+        if (moving)
+        {
             print("this is " + this.name + " start " + startposition);
 
             StopAllCoroutines();
             //print("position = " + transform.position + " previous = " + startposition);
-            StartCoroutine(MoveFromTo(transform.position , startposition, 0.2f, true));
+            StartCoroutine(MoveFromTo(transform.position, startposition, 0.2f, true));
+            currentTargetIndex = previousTargetIndex;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (moving)
+        {
+            print("this is " + this.name + " start " + startposition);
+            print("CollidedWith" + collision.name);
+
+            StopAllCoroutines();
+            //print("position = " + transform.position + " previous = " + startposition);
+            StartCoroutine(MoveFromTo(transform.position, startposition, 0.2f, true));
             currentTargetIndex = previousTargetIndex;
         }
     }
