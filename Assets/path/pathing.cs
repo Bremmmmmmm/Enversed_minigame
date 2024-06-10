@@ -25,6 +25,7 @@ public class PuzzlePieceController : MonoBehaviour
     private Vector3 a = new Vector3(0.1f,0.1f,0.1f);
     private Vector3 b = new Vector3(-0.1f,-0.1f,-0.1f);
     public bool enabled = true;
+    public AudioSource wrongsound;
 
     void Start()
     {
@@ -190,6 +191,8 @@ public class PuzzlePieceController : MonoBehaviour
     {
         if (moving){
             print("this is " + this.name + " start " + startposition);
+
+            wrongsound.Play();
 
             StopAllCoroutines();
             //print("position = " + transform.position + " previous = " + startposition);
