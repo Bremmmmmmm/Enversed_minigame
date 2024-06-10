@@ -37,6 +37,7 @@ public class win : MonoBehaviour
             if (amount == puzzelpieces.Length)
             {
                 Debug.Log("You win!");
+                GetComponent<AudioSource>().Play();
                 won = true;
                 spriteRenderer.color = new Color(1,1,1,1);
                 foreach (GameObject piece in puzzelpieces)
