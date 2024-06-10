@@ -32,14 +32,7 @@ public class PuzzlePieceController : MonoBehaviour
         transform.position = pathPoints[0].transform.position + centeroffset;
         spriteRenderer = GetComponent<SpriteRenderer>();
         
-        List<GameObject> availablePathPoints1 = pathPoints[currentTargetIndex].GetComponent<node>().connections;
-        availablePathPoints1.Add(pathPoints[currentTargetIndex]);
-        string names = "";
-        foreach (GameObject point in availablePathPoints1)
-        {
-            names += point.name + " ";
-        }
-        print("Available points: " + names);
+        print(this.name + " winpostion = " + pathPoints[winplace]);
     }
 
     void OnMouseDown()
@@ -134,7 +127,6 @@ public class PuzzlePieceController : MonoBehaviour
                 }
                 else
                 {
-                    print("line name = " + line.name + " maybe? = " + pathPoints[currentTargetIndex].name + "-" + pathPoints[CLPO].name);
                     line.GetComponent<SpriteRenderer>().color =  new Color(1.0f, 0.0f, 0.0f, 0.39f);;
                 }
             }
