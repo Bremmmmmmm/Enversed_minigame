@@ -8,23 +8,24 @@ public class Animation_player : MonoBehaviour
     public GameObject Screen;
     public GameObject LoadingBar;
     public GameObject Puzzle;
-    private bool started = false;
 
     private AudioSource scannersound;
     // Start is called before the first frame update
     void Start()
     {
         scannersound = GetComponent<AudioSource>();
+        //scene: 
+        //level3 = 3.1
+        //level2 = 2.78
+        StartCoroutine(StartTimer(2.78f));
+
     }
 
-    void Update()
+    IEnumerator StartTimer(float duration)
     {
-        if (Input.GetMouseButtonDown(0) && !started)
-        {
+        yield return new WaitForSeconds(duration);
             print("clicked");
-            started = true;
             StartAnimation();
-        }
     }
 
     void StartAnimation()

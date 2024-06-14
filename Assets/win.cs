@@ -19,6 +19,13 @@ public class win : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(GameObject piece in puzzelpieces){
+                print(piece.name + " should be at:'" + piece.GetComponent<PuzzlePieceController>().winplace + "' is at '" + piece.GetComponent<PuzzlePieceController>().currentTargetIndex + "'");
+            }
+        }
+
         if (!won)
         {
             int amount = 0;
