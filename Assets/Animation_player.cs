@@ -73,7 +73,9 @@ public class Animation_player : MonoBehaviour
     {
         // Wait for 4 seconds
         yield return new WaitForSeconds(4);
-
+        
+        Animator animatorCamera = Camera.GetComponent<Animator>();
+        animatorCamera.SetTrigger("start_camera_zoom");
         Animator animatorPuzzle = Puzzle.GetComponent<Animator>();
         animatorPuzzle.SetBool("FadeIn", true);
     }
